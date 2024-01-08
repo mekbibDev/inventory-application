@@ -5,9 +5,9 @@
  */
 
 const app = require("../app");
-const debug = require("debug")("express-template:server");
+const debug = require("debug")("inventory-application:server");
 const http = require("http");
-
+const process = require("process");
 /**
  * Get port from environment and store in Express.
  */

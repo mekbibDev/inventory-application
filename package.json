@@ -1,0 +1,35 @@
+{
+  "name": "inventory-application",
+  "version": "1.0.0",
+  "main": "app.js",
+  "repository": "git@github.com:mekbibDev/inventory-application.git",
+  "scripts": {
+    "start": "node ./bin/www",
+    "devstart": "nodemon --inspect ./bin/www",
+    "serverstart": "DEBUG=inventory-application:* yarn devstart"
+  },
+  "author": "mekbibDev <mekbibtare@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "nodemon": "^3.0.2",
+    "prettier": "3.1.1"
+  },
+  "dependencies": {
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
+    "debug": "^4.3.4",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-async-handler": "^1.2.0",
+    "express-rate-limit": "^7.1.5",
+    "express-validator": "^7.0.1",
+    "helmet": "^7.1.0",
+    "http-errors": "^2.0.0",
+    "mongoose": "^8.0.3",
+    "morgan": "^1.10.0",
+    "pug": "^3.0.2"
+  }
+}
