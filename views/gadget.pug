@@ -1,0 +1,16 @@
+extends layout
+
+block content 
+  main 
+    h1 Gadgets
+    each gadget in gadgets
+      ul 
+        li #{gadget.name}
+          ul
+            li Description: #{gadget.description}
+            li Price: #{gadget.price}
+            li Stock: #{gadget.stock}
+            li category:
+              ul 
+                each category in gadget.categories
+                  li #{category.name}

@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const CategorySchema = mongoose.Schema({
   name: { type: String, required: true },
   description: { type: String, required: true },
-  ofGadgets: [{ type: mongoose.Schema.Types.ObjectId, ref: "gadget" }],
+  gadgets: [{ type: mongoose.Schema.Types.ObjectId, ref: "Gadget" }],
 });
 
 const Category = mongoose.model("Category", CategorySchema);

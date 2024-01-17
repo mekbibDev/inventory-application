@@ -6,7 +6,9 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const compression = require("compression");
 const helmet = require("helmet");
-const indexRouter = require("./routes/index");
+const debug = require("debug")("inventory-application:server");
+const mongoose = require("mongoose");
+const gadgetRouter = require("./routes/gadget-route");
 const usersRouter = require("./routes/users");
 
 const app = express();
@@ -17,6 +19,8 @@ app.set("view engine", "pug");
 
 if (process.env.NODE_ENV === "development") {
   app.use(compression());
+  const connectionString = process.env.DEVELOPMENT_MONGODB_URI;
+  connectToDatabase(connectionString);
 }
 
 app.use(helmet());
@@ -26,7 +30,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", indexRouter);
+require("./model/category");
+app.use("/", gadgetRouter);
 app.use("/users", usersRouter);
 
 // catch 404 and forward to error handler
@@ -45,4 +50,13 @@ app.use(function (err, req, res) {
   res.render("error");
 });
 
+async function connectToDatabase(connectionString) {
+  try {
+    await mongoose.connect(connectionString);
+    debug("successfully connected to database");
+  } catch (err) {
+    console.log("error");
+    debug(err);
+  }
+}
 module.exports = app;
