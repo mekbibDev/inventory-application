@@ -9,7 +9,7 @@ const helmet = require("helmet");
 const debug = require("debug")("inventory-application:server");
 const mongoose = require("mongoose");
 const indexRouter = require("./routes/index");
-
+const categoryRouter = require("./routes/category");
 const app = express();
 
 // view engine setup
@@ -30,7 +30,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
-
+app.use("/category", categoryRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

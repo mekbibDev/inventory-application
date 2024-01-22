@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  if errors
+    h1 Error:
+      each error in errors
+        h2 #{error.msg}
+  fieldset 
+    legend Create Category 
+    form(method="post")
+      label(for="categoryName") Name*:
+      input(type="text" name="name" id="categoryName" value= name ? name : null required)
+      label(for="categoryDescription") Description*:
+      textarea(name="description" id="categoryDescription"  cols="30" rows="10" value= description ? description : null required )
+      button(type="submit") Submit

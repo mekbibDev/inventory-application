@@ -10,6 +10,7 @@ block content
         each category in categories
           option(value = category._id) #{category.name}  
       button(type="submit") filter
+    a(href="category/create") create category
     if selectedCategory 
       a(href="/") Show All Gadgets
     h1 Gadgets
