@@ -2,10 +2,14 @@ const Gadget = require("../model/gadget");
 const Categories = require("../model/category");
 const Category = require("../model/category");
 
-async function handleGet(req, res) {
-  const gadgets = await Gadget.find({}).populate("categories");
-  const categories = await Categories.find({});
-  res.render("gadget", { title: "Gadgets", gadgets, categories });
+async function getAll(req, res, next) {
+  try {
+    const gadgets = await Gadget.find({}).populate("categories");
+    const categories = await Categories.find({});
+    res.render("index", { title: "Gadget Inventory", gadgets, categories });
+  } catch (error) {
+    next(error);
+  }
 }
 async function filter(req, res, next) {
   try {
@@ -13,8 +17,8 @@ async function filter(req, res, next) {
       "gadgets",
     );
     const categories = await Categories.find({});
-    res.render("gadget", {
-      title: "Gadgets",
+    res.render("index", {
+      title: "Gadget Inventory",
       gadgets: category.gadgets,
       categories,
     });
@@ -22,4 +26,4 @@ async function filter(req, res, next) {
     next(error);
   }
 }
-module.exports = { handleGet, filter };
+module.exports = { getAll, filter };

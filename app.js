@@ -8,7 +8,7 @@ const compression = require("compression");
 const helmet = require("helmet");
 const debug = require("debug")("inventory-application:server");
 const mongoose = require("mongoose");
-const gadgetRouter = require("./routes/gadget-route");
+const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 
 const app = express();
@@ -30,8 +30,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-require("./model/category");
-app.use("/", gadgetRouter);
+app.use("/", indexRouter);
 app.use("/users", usersRouter);
 
 // catch 404 and forward to error handler
