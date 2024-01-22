@@ -6,7 +6,7 @@ block content
     form( method="get" action="/filter" )
       label(for="category-select") Select Category
       select(name="category" id="category-select" required)
-        option(value="") Select a category
+        option(value=selectedCategory ? selectedCategory._id : "") #{selectedCategory ? selectedCategory.name : "Select a category"}
         each category in categories
           option(value = category._id) #{category.name}  
       button(type="submit") filter

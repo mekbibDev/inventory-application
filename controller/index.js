@@ -20,6 +20,7 @@ async function filter(req, res, next) {
     res.render("index", {
       title: "Gadget Inventory",
       gadgets: category.gadgets,
+      selectedCategory: category,
       categories,
     });
   } catch (error) {
