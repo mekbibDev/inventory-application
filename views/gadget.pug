@@ -1,7 +1,15 @@
 extends layout
 
 block content 
-  main 
+  main
+    h1 Categories
+    form( method="get" action="/filter" )
+      label(for="category-select") Select Category
+      select(name="category" id="category-select" required)
+        option(value="") Select a category
+        each category in categories
+          option(value = category._id) #{category.name}  
+      button(type="submit") filter
     h1 Gadgets
     each gadget in gadgets
       ul 
