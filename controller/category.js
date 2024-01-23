@@ -46,8 +46,7 @@ const createPost = [
       if (!result.isEmpty()) {
         res.render("createCategory", {
           errors: result.errors,
-          name: data.name,
-          description: data.description,
+          ...req.body,
         });
       } else {
         const newCategory = new Category({
@@ -56,7 +55,7 @@ const createPost = [
         });
         const savedCategory = await newCategory.save();
         if (savedCategory === newCategory) res.redirect("/");
-        else throw new Error("Category not saved");
+        else throw new Error("Category was not saved");
       }
     } catch (error) {
       next(error);
