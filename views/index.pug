@@ -27,3 +27,6 @@ block content
               ul 
                 each category in gadget.categories
                   li #{category.name}
+    if gadgets.length === 0
+      h1 No gadgets exist in this category
+      a(href="/gadget/create" alt="create gadget") Create new Gadget? 
