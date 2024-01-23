@@ -9,13 +9,13 @@ block content
     legend Create Gadget
     form(method="post")
       label(for="gadgetName") Name*:
-      input(type="text" name="name" id="gadgetName" value=name ? name: null required)
+      input(type="text" name="name" minlength=2 maxlength=20 id="gadgetName" value=name ? name: null required)
       label(for="price") Price*:
-      input(type="number" name="price" id="price" value=price ? price : null required)
+      input(type="number" name="price" id="price" min=0 value=price ? price : null required)
       label(for="stock") Stock*:
-      input(type="number" name="stock" id="stock" value=stock ? stock : null required)
+      input(type="number" name="stock" id="stock" min=0 value=stock ? stock : null required)
       label(for="description") Description*:
-      textarea(name="description" id="description" cols="30" rows="10" required) #{description ? description : ""}
+      textarea(name="description" id="description" minlength=10 maxlength=100 cols="30" rows="10" required) #{description ? description : ""}
       label(for="categories") Categories*:
       select(name="categoryIds" id="categories" multiple required)
         each category in categories
