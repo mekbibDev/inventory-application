@@ -9,7 +9,7 @@ block content
     legend Create Category 
     form(method="post")
       label(for="categoryName") Name*:
-      input(type="text" name="name" id="categoryName" value= name ? name : null required)
+      input(type="text" name="name" id="categoryName" minlength=2 maxlength=20 value= name ? name : null required)
       label(for="categoryDescription") Description*:
-      textarea(name="description" id="categoryDescription"  cols="30" rows="10" required ) #{description ? description : ""}
+      textarea(name="description" id="categoryDescription" minlength=10 maxlength=100 cols="30" rows="10" required ) #{description ? description : ""}
       button(type="submit") Submit
