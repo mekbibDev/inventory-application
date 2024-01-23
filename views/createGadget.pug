@@ -1,0 +1,35 @@
+extends layout
+
+block content 
+  if errors
+    h1 Error:
+      each error in errors
+        h2 #{error.msg}
+  fieldset  
+    legend Create Gadget
+    form(method="post")
+      label(for="gadgetName") Name*:
+      input(type="text" name="name" id="gadgetName" value=name ? name: null required)
+      label(for="price") Price*:
+      input(type="number" name="price" id="price" value=price ? price : null required)
+      label(for="stock") Stock*:
+      input(type="number" name="stock" id="stock" value=stock ? stock : null required)
+      label(for="description") Description*:
+      textarea(name="description" id="description" cols="30" rows="10" required) #{description ? description : ""}
+      label(for="categories") Categories*:
+      select(name="categoryIds" id="categories" multiple required)
+        each category in categories
+
+          - var isSelected = false
+          if categoryIds 
+            for categoryId in categoryIds
+              if category._id.toString() === categoryId
+                - isSelected = true
+          if isSelected 
+            option(value=category._id selected) #{category.name}
+          else 
+            option(value=category._id) #{category.name}
+      button(type="submit") submit
+
+
+
