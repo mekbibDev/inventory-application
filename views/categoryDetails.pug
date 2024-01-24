@@ -1,0 +1,10 @@
+extends layout
+
+block content 
+
+  main 
+    h1 Categories 
+      each category in categories
+        h2 #{category.name}
+        p #{category.description} 
+        a(href=`/category/${category._id}/edit`) Edit Category 

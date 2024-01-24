@@ -1,8 +1,23 @@
-const { matchedData, validationResult, body } = require("express-validator");
+const {
+  matchedData,
+  validationResult,
+  body,
+  param,
+} = require("express-validator");
 const Category = require("../model/category");
+
+async function detailsGet(req, res, next) {
+  try {
+    const categories = await Category.find({});
+    res.render("categoryDetails", { categories });
+  } catch (error) {
+    next(error);
+  }
+}
+
 async function createGet(req, res, next) {
   try {
-    res.render("createCategory", { title: "Create Category" });
+    res.render("categoryForm", { title: "Create Category" });
   } catch (error) {
     next(error);
   }
@@ -34,7 +49,7 @@ const createPost = [
     .withMessage("Description is required")
     .isLength({
       min: 10,
-      max: 100,
+      max: 200,
     })
     .withMessage(
       "Description must be at least 10 characters long and at most 100 characters long",
@@ -42,13 +57,13 @@ const createPost = [
   async function (req, res, next) {
     try {
       const result = validationResult(req);
-      const data = matchedData(req);
       if (!result.isEmpty()) {
-        res.render("createCategory", {
+        res.render("categoryForm", {
           errors: result.errors,
           ...req.body,
         });
       } else {
+        const data = matchedData(req);
         const newCategory = new Category({
           name: data.name,
           description: data.description,
@@ -62,4 +77,76 @@ const createPost = [
     }
   },
 ];
-module.exports = { createGet, createPost };
+
+const editGet = [
+  param("categoryId").trim().escape().notEmpty(),
+  async function (req, res, next) {
+    try {
+      const result = validationResult(req);
+      if (!result.isEmpty())
+        throw new Error("A valid category id param must be sent");
+      else {
+        const data = matchedData(req);
+        const category = await Category.findById(data.categoryId);
+        res.render("categoryForm", {
+          title: "Edit Category",
+          name: category.name,
+          description: category.description,
+        });
+      }
+    } catch (error) {
+      next(error);
+    }
+  },
+];
+
+const editPost = [
+  param("categoryId").trim().escape().notEmpty(),
+  body("name")
+    .trim()
+    .escape()
+    .notEmpty()
+    .withMessage("Name is required")
+    .customSanitizer(function capitalize(value) {
+      return value[0].toUpperCase() + value.slice(1);
+    })
+    .isLength({
+      min: 2,
+      max: 20,
+    })
+    .withMessage(
+      "Name must be at least 2 characters long and at most 20 characters long",
+    ),
+  body("description")
+    .trim()
+    .escape()
+    .notEmpty()
+    .withMessage("Description is required")
+    .isLength({
+      min: 10,
+      max: 200,
+    })
+    .withMessage(
+      "Description must be at least 10 characters long and at most 100 characters long",
+    ),
+  async function (req, res, next) {
+    try {
+      const result = validationResult(req);
+
+      if (!result.isEmpty()) {
+        res.render("categoryForm", {
+          errors: result.errors,
+          ...req.body,
+        });
+      } else {
+        const data = matchedData(req);
+        await Category.findByIdAndUpdate(data.categoryId, { ...data });
+        res.redirect("/");
+      }
+    } catch (error) {
+      next(error);
+    }
+  },
+];
+
+module.exports = { createGet, createPost, detailsGet, editGet, editPost };
