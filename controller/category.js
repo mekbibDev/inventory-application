@@ -52,7 +52,7 @@ const createPost = [
       max: 200,
     })
     .withMessage(
-      "Description must be at least 10 characters long and at most 100 characters long",
+      "Description must be at least 10 characters long and at most 200 characters long",
     ),
   async function (req, res, next) {
     try {
@@ -127,7 +127,7 @@ const editPost = [
       max: 200,
     })
     .withMessage(
-      "Description must be at least 10 characters long and at most 100 characters long",
+      "Description must be at least 10 characters long and at most 200 characters long",
     ),
   async function (req, res, next) {
     try {
