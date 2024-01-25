@@ -11,7 +11,7 @@ block content
       label(for="gadgetName") Name*:
       input(type="text" name="name" minlength=2 maxlength=20 id="gadgetName" value=name ? name: null required)
       label(for="price") Price*:
-      input(type="number" name="price" id="price" min=0 value=price || price === 0 ? price : null required)
+      input(type="number" name="price" id="price" step=0.01 min=0 value=price || price === 0 ? price : null required)
       label(for="stock") Stock*:
       input(type="number" name="stock" id="stock" min=0 value=stock || stock === 0 ? stock : null required)
       label(for="description") Description*:
