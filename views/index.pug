@@ -30,6 +30,8 @@ block content
               ul 
                 each category in gadget.categories
                   li #{category.name}
+        li 
+          a(href=`/gadget/${gadget._id.toString()}/edit`) Edit Gadget
     if gadgets.length === 0
       h1 No gadgets exist in this category
       a(href="/gadget/create" alt="create gadget") Create new Gadget? 
