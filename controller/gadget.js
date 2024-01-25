@@ -271,16 +271,5 @@ async function removeGadgetFromCategories(
       await Category.findByIdAndUpdate(categoryId, { gadgets: gadgetIds });
     }
   }
-  // for await (const categoryId of categoriesToRemoveGadgetsFrom) {
-  //   let gadgets = await Category.findById(categoryId, "gadgets");
-  //   const filteredGadgets = Object.keys(gadgets)
-  //     .filter((key) => gadgets[key].toString() !== gadgetId.toString())
-  //     .reduce((res, key) => {
-  //       res[key] = gadgets[key];
-  //       return res;
-  //     }, {});
-  //   gadgets = filteredGadgets;
-  //   await Gadget.findByIdAndUpdate(categoryId, gadgets);
-  // }
 }
 module.exports = { createGet, createPost, editGet, editPost };
