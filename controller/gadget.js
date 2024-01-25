@@ -26,10 +26,10 @@ const createPost = [
     })
     .isLength({
       min: 2,
-      max: 20,
+      max: 40,
     })
     .withMessage(
-      "Name must be at least 2 characters long and at most 20 characters long",
+      "Name must be at least 2 characters long and at most 40 characters long",
     )
     .custom(async (value) => {
       const gadget = await Gadget.findOne({ name: value });
@@ -63,10 +63,10 @@ const createPost = [
     .withMessage("Description is required")
     .isLength({
       min: 10,
-      max: 100,
+      max: 200,
     })
     .withMessage(
-      "Description must be at least 10 characters long and at most 100 characters long",
+      "Description must be at least 10 characters long and at most 200 characters long",
     ),
   body("categoryIds")
     .trim()
@@ -152,10 +152,10 @@ const editPost = [
     })
     .isLength({
       min: 2,
-      max: 20,
+      max: 40,
     })
     .withMessage(
-      "Name must be at least 2 characters long and at most 20 characters long",
+      "Name must be at least 2 characters long and at most 40 characters long",
     ),
   body("price")
     .trim()
@@ -185,10 +185,10 @@ const editPost = [
     .withMessage("Description is required")
     .isLength({
       min: 10,
-      max: 100,
+      max: 200,
     })
     .withMessage(
-      "Description must be at least 10 characters long and at most 100 characters long",
+      "Description must be at least 10 characters long and at most 200 characters long",
     ),
   body("categoryIds")
     .trim()
