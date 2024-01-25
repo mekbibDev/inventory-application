@@ -6,7 +6,6 @@ const {
 } = require("express-validator");
 const Category = require("../model/category");
 const Gadget = require("../model/gadget");
-const { default: mongoose } = require("mongoose");
 
 async function createGet(req, res, next) {
   try {
@@ -90,24 +89,25 @@ const createPost = [
             : [req.body.categoryIds],
         });
       } else {
-        const categories = [];
+        const categoryIds = [];
         const data = matchedData(req);
         if (Array.isArray(data.categoryIds)) {
           for await (let categoryId of data.categoryIds) {
             const categoryInDb = await Category.findById(categoryId);
-            categories.push(categoryInDb._id);
+            categoryIds.push(categoryInDb._id);
           }
         } else {
-          categories.push(data.categoryIds);
+          categoryIds.push(data.categoryIds);
         }
         const newGadget = new Gadget({
           name: data.name,
           description: data.description,
           price: data.price,
           stock: data.stock,
-          categories: [...categories],
+          categories: [...categoryIds],
         });
         const savedGadget = await newGadget.save();
+        await addGadgetToCategories(categoryIds, savedGadget._id);
         if (savedGadget === newGadget) res.redirect("/");
         else throw new Error("Gadget was not saved");
       }
@@ -227,7 +227,7 @@ const editPost = [
           gadgetId,
           gadgetUpdateData,
         );
-        await addGadgetToCategories(categoryIds, gadgetId);
+        await addGadgetToCategories(categoryIds, gadgetBeforeUpdate._id);
         await removeGadgetFromCategories(
           gadgetBeforeUpdate,
           categoryIds,
@@ -241,14 +241,13 @@ const editPost = [
   },
 ];
 async function addGadgetToCategories(categoryIds, gadgetId) {
-  const gadgetObjectId = new mongoose.Types.ObjectId(gadgetId);
   for await (const categoryId of categoryIds) {
     const {
       gadgets: [...gadgetIds],
     } = await Category.findById(categoryId, "gadgets");
     const gadgetIdStrings = gadgetIds.map((gadgetId) => gadgetId.toString());
-    if (!gadgetIdStrings.includes(gadgetId)) {
-      gadgetIds.push(gadgetObjectId);
+    if (!gadgetIdStrings.includes(gadgetId.toString())) {
+      gadgetIds.push(gadgetId);
       await Category.findByIdAndUpdate(categoryId, { gadgets: gadgetIds });
     }
   }
