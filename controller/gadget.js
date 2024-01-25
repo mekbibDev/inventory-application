@@ -50,7 +50,7 @@ const createPost = [
     .escape()
     .notEmpty()
     .withMessage("Stock is required")
-    .isFloat({
+    .isInt({
       min: 0,
     })
     .withMessage("Stock must be a number and greater or equal to zero")
