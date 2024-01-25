@@ -244,6 +244,25 @@ const editPost = [
     }
   },
 ];
+const deleteGadget = [
+  param("gadgetId").trim().escape().notEmpty(),
+  async function (req, res, next) {
+    try {
+      const result = validationResult(req);
+      if (!result.isEmpty()) {
+        throw new Error("A valid gadget id param must be given");
+      } else {
+        const data = matchedData(req);
+        const deletedGadget = await Gadget.findByIdAndDelete(data.gadgetId);
+        await removeGadgetFromCategories(deletedGadget, [], data.gadgetId);
+
+        res.redirect("/");
+      }
+    } catch (error) {
+      next(error);
+    }
+  },
+];
 async function addGadgetToCategories(categoryIds, gadgetId) {
   for await (const categoryId of categoryIds) {
     const {
@@ -257,12 +276,8 @@ async function addGadgetToCategories(categoryIds, gadgetId) {
   }
 }
 
-async function removeGadgetFromCategories(
-  gadgetBeforeUpdate,
-  categoryIds,
-  gadgetId,
-) {
-  for (const categoryId of gadgetBeforeUpdate.categories) {
+async function removeGadgetFromCategories(gadget, categoryIds, gadgetId) {
+  for (const categoryId of gadget.categories) {
     if (!categoryIds.includes(categoryId.toString())) {
       let {
         gadgets: [...gadgetIds],
@@ -275,4 +290,4 @@ async function removeGadgetFromCategories(
     }
   }
 }
-module.exports = { createGet, createPost, editGet, editPost };
+module.exports = { createGet, createPost, editGet, editPost, deleteGadget };
