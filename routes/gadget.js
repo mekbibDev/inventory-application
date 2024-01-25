@@ -1,13 +1,13 @@
 const router = require("express").Router();
 const {
   createGet,
-  handlePost,
+  createPost,
   editGet,
   editPost,
 } = require("../controller/gadget");
 
 router.get("/create", createGet);
-router.post("/create", handlePost);
+router.post("/create", createPost);
 
 router.get("/:gadgetId/edit", editGet);
 router.post("/:gadgetId/edit", editPost);

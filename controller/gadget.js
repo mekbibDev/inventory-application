@@ -16,7 +16,7 @@ async function createGet(req, res, next) {
     next(error);
   }
 }
-const handlePost = [
+const createPost = [
   body("name")
     .trim()
     .escape()
@@ -283,4 +283,4 @@ async function removeGadgetFromCategories(
   //   await Gadget.findByIdAndUpdate(categoryId, gadgets);
   // }
 }
-module.exports = { createGet, handlePost, editGet, editPost };
+module.exports = { createGet, createPost, editGet, editPost };
