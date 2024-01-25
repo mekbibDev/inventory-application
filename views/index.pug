@@ -15,10 +15,10 @@ block content
     br
     a(href="category/details") show category details
     br
-    a(href="gadget/create") create gadget
     if selectedCategory 
       a(href="/") Show All Gadgets
     h1 Gadgets
+    a(href="gadget/create") create gadget
     each gadget in gadgets
       ul 
         li #{gadget.name}
