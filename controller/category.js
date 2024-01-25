@@ -139,8 +139,8 @@ const editPost = [
           ...req.body,
         });
       } else {
-        const data = matchedData(req);
-        await Category.findByIdAndUpdate(data.categoryId, { ...data });
+        const { categoryId, ...categoryUpdateData } = matchedData(req);
+        await Category.findByIdAndUpdate(categoryId, { ...categoryUpdateData });
         res.redirect("/");
       }
     } catch (error) {

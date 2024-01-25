@@ -221,8 +221,12 @@ const editPost = [
           categoryIds.push(data.categoryIds);
         }
         data.categories = categoryIds;
-        // eslint-disable-next-line no-unused-vars
-        const { gadgetId, ...gadgetUpdateData } = data;
+        const {
+          // eslint-disable-next-line no-unused-vars
+          categoryIds: categoryIdsToNotBeSent,
+          gadgetId,
+          ...gadgetUpdateData
+        } = data;
         const gadgetBeforeUpdate = await Gadget.findByIdAndUpdate(
           gadgetId,
           gadgetUpdateData,
