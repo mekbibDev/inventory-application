@@ -10,7 +10,7 @@ const { removeGadgetFromCategories } = require("./utils");
 
 async function detailsGet(req, res, next) {
   try {
-    const categories = await Category.find({});
+    const categories = await Category.find({}, { adminKey: 0 });
     res.render("categoryDetails", { categories });
   } catch (error) {
     next(error);
@@ -25,6 +25,11 @@ async function createGet(req, res, next) {
   }
 }
 const createPost = [
+  body("adminKey")
+    .trim()
+    .escape()
+    .notEmpty()
+    .withMessage("Admin Key is required"),
   body("name")
     .trim()
     .escape()
@@ -69,6 +74,7 @@ const createPost = [
         const newCategory = new Category({
           name: data.name,
           description: data.description,
+          adminKey: data.adminKey,
         });
         const savedCategory = await newCategory.save();
         if (savedCategory === newCategory) res.redirect("/");
@@ -89,7 +95,9 @@ const editGet = [
         throw new Error("A valid category id param must be sent");
       else {
         const data = matchedData(req);
-        const category = await Category.findById(data.categoryId);
+        const category = await Category.findById(data.categoryId, {
+          adminKey: 0,
+        });
         res.render("categoryForm", {
           title: "Edit Category",
           name: category.name,

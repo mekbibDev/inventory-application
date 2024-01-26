@@ -8,6 +8,8 @@ block content
   fieldset 
     legend #{title} 
     form(method="post")
+      label(for="adminKey") Admin Key*: 
+      input(type="text" name="adminKey" id="adminKey" value != adminKey ? adminKey: null required) 
       label(for="categoryName") Name*:
       input(type="text" name="name" id="categoryName" minlength=2 maxlength=20 value!= name ? name : null required)
       label(for="categoryDescription") Description*:

@@ -7,6 +7,7 @@ const GadgetSchema = mongoose.Schema({
   stock: { type: Number, required: true },
   photoMimeType: { type: String, required: false },
   photo: { type: Buffer, required: false },
+  adminKey: { type: String, required: true },
   categories: [
     { type: mongoose.Schema.Types.ObjectId, ref: "Category", required: true },
   ],

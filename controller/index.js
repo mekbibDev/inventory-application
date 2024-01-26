@@ -6,7 +6,7 @@ const { query, matchedData, validationResult } = require("express-validator");
 async function getAll(req, res, next) {
   try {
     const gadgets = await Gadget.find({}).populate("categories");
-    const categories = await Categories.find({});
+    const categories = await Categories.find({}, { adminKey: 0 });
     res.render("index", { title: "Gadget Inventory", gadgets, categories });
   } catch (error) {
     next(error);
