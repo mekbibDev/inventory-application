@@ -7,7 +7,7 @@ block content
         h2 !{error.msg}
   fieldset  
     legend !{title}
-    form(method="post")
+    form(method="post" enctype="multipart/form-data")
       label(for="gadgetName") Name*:
       input(type="text" name="name" minlength=2 maxlength=20 id="gadgetName" value!=name ? name: null required)
       label(for="price") Price*:
@@ -29,6 +29,8 @@ block content
             option(value!=category._id selected) !{category.name}
           else 
             option(value!=category._id) !{category.name}
+      label(for="photo") Photo: 
+      input(type="file" id="photo" name="photo" accept=".jpeg,.png,webp")
       button(type="submit") submit
 
 

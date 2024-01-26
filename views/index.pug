@@ -23,6 +23,9 @@ block content
       ul 
         li !{gadget.name}
           ul
+            if gadget.photo 
+              li
+                img(src=`data:${gadget.photoMimeType};base64,${Buffer.from(gadget.photo ).toString('base64')}` alt !=gadget.name)
             li Description: !{gadget.description}
             li Price: !{gadget.price}
             li Stock: !{gadget.stock}

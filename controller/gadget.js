@@ -4,13 +4,17 @@ const {
   body,
   param,
 } = require("express-validator");
+const multer = require("multer");
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 const Category = require("../model/category");
 const Gadget = require("../model/gadget");
 const {
   removeGadgetFromCategories,
   addGadgetToCategories,
 } = require("./utils");
-
+const TWO_MB_SIZE = 1024 * 1024 * 2;
+const ALLOWED_IMAGE_MIMETYPE = ["image/jpeg", "image/png", "image/webp"];
 async function createGet(req, res, next) {
   try {
     const categories = await Category.find({});
@@ -20,6 +24,7 @@ async function createGet(req, res, next) {
   }
 }
 const createPost = [
+  upload.single("photo"),
   body("name")
     .trim()
     .escape()
@@ -80,7 +85,17 @@ const createPost = [
   async function (req, res, next) {
     try {
       const result = validationResult(req);
-
+      const file = req.file;
+      if (file && !ALLOWED_IMAGE_MIMETYPE.includes(file.mimetype))
+        result.errors.push({
+          msg: `Only these image types are allowed: ${ALLOWED_IMAGE_MIMETYPE.join(
+            ", ",
+          )}`,
+        });
+      if (file && file.size > TWO_MB_SIZE)
+        result.errors.push({
+          msg: "File size must be smaller or equal to 2 megabyte",
+        });
       if (!result.isEmpty()) {
         const categories = await Category.find({});
 
@@ -103,12 +118,19 @@ const createPost = [
         } else {
           categoryIds.push(data.categoryIds);
         }
-        const newGadget = new Gadget({
+        const gadgetData = {
           name: data.name,
           description: data.description,
           price: data.price,
           stock: data.stock,
           categories: [...categoryIds],
+        };
+        if (file) {
+          gadgetData.photoMimeType = file.photoMimeType;
+          gadgetData.photo = file.buffer;
+        }
+        const newGadget = new Gadget({
+          ...gadgetData,
         });
         const savedGadget = await newGadget.save();
         await addGadgetToCategories(categoryIds, savedGadget._id);
