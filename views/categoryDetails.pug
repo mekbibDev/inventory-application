@@ -7,4 +7,6 @@ block content
       each category in categories
         h2 #{category.name}
         p #{category.description} 
-        a(href=`/category/${category._id}/edit`) Edit Category 
+        a(href=`/category/${category._id}/edit`) Edit Category
+        br
+        a(href=`/category/${category._id}/delete`) Delete Category 

@@ -5,6 +5,8 @@ const {
   param,
 } = require("express-validator");
 const Category = require("../model/category");
+const Gadget = require("../model/gadget");
+const { removeGadgetFromCategories } = require("./utils");
 
 async function detailsGet(req, res, next) {
   try {
@@ -148,5 +150,39 @@ const editPost = [
     }
   },
 ];
-
-module.exports = { createGet, createPost, detailsGet, editGet, editPost };
+const deleteCategory = [
+  param("categoryId").trim().escape().notEmpty(),
+  async function (req, res, next) {
+    try {
+      const result = validationResult(req);
+      if (!result.isEmpty()) {
+        throw new Error("A valid category id param must be sent");
+      } else {
+        const data = matchedData(req);
+        const deletedCategory = await Category.findByIdAndDelete(
+          data.categoryId,
+        );
+        for await (const gadgetId of deletedCategory.gadgets) {
+          const deletedGadget = await Gadget.findByIdAndDelete(gadgetId);
+          await removeGadgetFromCategories(
+            deletedGadget,
+            [],
+            gadgetId.toString(),
+            deletedCategory._id.toString(),
+          );
+        }
+        res.redirect("/category/details");
+      }
+    } catch (error) {
+      next(error);
+    }
+  },
+];
+module.exports = {
+  createGet,
+  createPost,
+  detailsGet,
+  editGet,
+  editPost,
+  deleteCategory,
+};
