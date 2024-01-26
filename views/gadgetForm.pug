@@ -29,6 +29,16 @@ block content
             option(value!=category._id selected) !{category.name}
           else 
             option(value!=category._id) !{category.name}
+      if photo
+        fieldset 
+          legend Delete photo 
+          img(src=`data:${photoMimeType};base64,${Buffer.from(photo).toString('base64')}` alt!=name)
+          h2 Uploaded Photo 
+          input(type="radio" id="deleteNo" name="deletePhoto" value="false" checked)
+          label(for="deleteYes") no
+          input(type="radio" id="deleteYes" name="deletePhoto" value="true")
+          label(for="deleteYes") yes
+          
       label(for="photo") Photo: 
       input(type="file" id="photo" name="photo" accept=".jpeg,.png,webp")
       button(type="submit") submit

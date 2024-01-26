@@ -167,6 +167,7 @@ const editGet = [
   },
 ];
 const editPost = [
+  upload.single("photo"),
   param("gadgetId").trim().escape().notEmpty(),
   body("name")
     .trim()
@@ -221,15 +222,36 @@ const editPost = [
     .escape()
     .notEmpty()
     .withMessage("At least one category must be selected"),
+  body("deletePhoto")
+    .isBoolean()
+    .optional()
+    .withMessage("boolean value must be given for delete photo"),
   async function (req, res, next) {
     try {
       const result = validationResult(req);
+      const file = req.file;
+      const data = matchedData(req);
+      if (file && !ALLOWED_IMAGE_MIMETYPE.includes(file.mimetype))
+        result.errors.push({
+          msg: `Only these image types are allowed: ${ALLOWED_IMAGE_MIMETYPE.join(
+            ", ",
+          )}`,
+        });
+      if (file && file.size > TWO_MB_SIZE)
+        result.errors.push({
+          msg: "File size must be smaller or equal to 2 megabyte",
+        });
       if (!result.isEmpty()) {
         const categories = await Category.find({});
-
+        const { photo, photoMimeType } = await Gadget.findById(
+          data.gadgetId,
+          "photo photoMimeType",
+        );
         res.render("gadgetForm", {
           errors: result.errors,
           categories,
+          photo,
+          photoMimeType,
           ...req.body,
           categoryIds: Array.isArray(req.body.categoryIds)
             ? req.body.categoryIds
@@ -237,7 +259,6 @@ const editPost = [
         });
       } else {
         const categoryIds = [];
-        const data = matchedData(req);
         if (Array.isArray(data.categoryIds)) {
           for await (let categoryId of data.categoryIds) {
             const categoryInDb = await Category.findById(categoryId);
@@ -253,6 +274,14 @@ const editPost = [
           gadgetId,
           ...gadgetUpdateData
         } = data;
+        if (data.deletePhoto && data.deletePhoto == "true") {
+          gadgetUpdateData.photoMimeType = null;
+          gadgetUpdateData.photo = null;
+        }
+        if (file) {
+          gadgetUpdateData.photoMimeType = file.photoMimeType;
+          gadgetUpdateData.photo = file.buffer;
+        }
         const gadgetBeforeUpdate = await Gadget.findByIdAndUpdate(
           gadgetId,
           gadgetUpdateData,
