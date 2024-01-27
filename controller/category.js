@@ -112,6 +112,11 @@ const editGet = [
 
 const editPost = [
   param("categoryId").trim().escape().notEmpty(),
+  body("adminKey")
+    .trim()
+    .escape()
+    .notEmpty()
+    .withMessage("Admin Key is required"),
   body("name")
     .trim()
     .escape()
@@ -142,14 +147,22 @@ const editPost = [
   async function (req, res, next) {
     try {
       const result = validationResult(req);
-
+      const { adminKey, ...data } = matchedData(req);
+      if (adminKey) {
+        const { adminKey: categoryAdminKey } = await Category.findById(
+          data.categoryId,
+          "adminKey",
+        );
+        if (adminKey !== categoryAdminKey)
+          result.errors.unshift({ msg: "Admin key does not match" });
+      }
       if (!result.isEmpty()) {
         res.render("categoryForm", {
           errors: result.errors,
           ...req.body,
         });
       } else {
-        const { categoryId, ...categoryUpdateData } = matchedData(req);
+        const { categoryId, ...categoryUpdateData } = data;
         await Category.findByIdAndUpdate(categoryId, { ...categoryUpdateData });
         res.redirect("/");
       }
