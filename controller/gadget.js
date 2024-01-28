@@ -31,7 +31,8 @@ const createPost = [
     .notEmpty()
     .withMessage("Name is required")
     .customSanitizer(function capitalize(value) {
-      return value[0].toUpperCase() + value.slice(1);
+      if (value) return value[0].toUpperCase() + value.slice(1);
+      return value;
     })
     .isLength({
       min: 2,
