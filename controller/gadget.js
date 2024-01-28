@@ -321,11 +321,33 @@ const editPost = [
 ];
 const deleteGadget = [
   param("gadgetId").trim().escape().notEmpty(),
+  param("adminKey").trim().escape().notEmpty(),
   async function (req, res, next) {
     try {
       const result = validationResult(req);
+      const { adminKey, ...data } = matchedData(req);
+      if (adminKey) {
+        const { adminKey: gadgetAdminKey } = await Gadget.findById(
+          data.gadgetId,
+          "adminKey",
+        );
+        if (adminKey !== gadgetAdminKey)
+          result.errors.unshift({ msg: "Admin key does not match" });
+      }
       if (!result.isEmpty()) {
-        throw new Error("A valid gadget id param must be given");
+        const gadgets = await Gadget.find({}, { adminKey: 0 }).populate(
+          "categories",
+          { adminKey: 0 },
+        );
+        const categories = await Category.find({}, { adminKey: 0 });
+        res.render("index", {
+          errors: result.errors,
+          url: `/gadget/${data.gadgetId}/`,
+          title: "Gadget Inventory",
+          adminKey,
+          gadgets,
+          categories,
+        });
       } else {
         const data = matchedData(req);
         const deletedGadget = await Gadget.findByIdAndDelete(data.gadgetId);

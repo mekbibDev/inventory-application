@@ -13,6 +13,6 @@ router.post("/create", createPost);
 router.get("/:gadgetId/edit", editGet);
 router.post("/:gadgetId/edit", editPost);
 
-router.get("/:gadgetId/Delete", deleteGadget);
+router.post("/:gadgetId/:adminKey/delete", deleteGadget);
 
 module.exports = router;
