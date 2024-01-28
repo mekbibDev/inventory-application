@@ -1,6 +1,16 @@
 extends layout
 
-block content 
+block content
+  dialog(open = errors ? true : null)
+    if errors
+      h1 Error:
+      each error in errors
+        h1 #{error.msg}
+    form(action=url ? url :null method="post" )
+      label(for="adminKey") Admin key:
+      input(type="text" id="adminKey" name="adminKey" value= adminKey ? adminKey: null required)
+      button(id="submitAdminKey") submit
+      button(id="closeDialog") close 
   h1 Categories 
     each category in categories
       h2 #{category.name}
