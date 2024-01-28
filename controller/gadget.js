@@ -159,7 +159,7 @@ const editGet = [
         throw new Error("A valid gadget id param must be given");
       else {
         const data = matchedData(req);
-        const gadget = await Gadget.findById(data.gadgetId);
+        const gadget = await Gadget.findById(data.gadgetId, { adminKey: 0 });
         const categories = await Category.find({});
         res.render("gadgetForm", {
           title: "Edit Gadget",
@@ -176,6 +176,11 @@ const editGet = [
 const editPost = [
   upload.single("photo"),
   param("gadgetId").trim().escape().notEmpty(),
+  body("adminKey")
+    .trim()
+    .escape()
+    .notEmpty()
+    .withMessage("Admin Key is required"),
   body("name")
     .trim()
     .escape()
@@ -237,7 +242,15 @@ const editPost = [
     try {
       const result = validationResult(req);
       const file = req.file;
-      const data = matchedData(req);
+      const { adminKey, ...data } = matchedData(req);
+      if (adminKey) {
+        const { adminKey: gadgetAdminKey } = await Gadget.findById(
+          data.gadgetId,
+          "adminKey",
+        );
+        if (adminKey !== gadgetAdminKey)
+          result.errors.unshift({ msg: "Admin key does not match" });
+      }
       if (file && !ALLOWED_IMAGE_MIMETYPE.includes(file.mimetype))
         result.errors.push({
           msg: `Only these image types are allowed: ${ALLOWED_IMAGE_MIMETYPE.join(
