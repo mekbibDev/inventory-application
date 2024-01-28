@@ -25,6 +25,11 @@ async function createGet(req, res, next) {
 }
 const createPost = [
   upload.single("photo"),
+  body("adminKey")
+    .trim()
+    .escape()
+    .notEmpty()
+    .withMessage("Admin Key is required"),
   body("name")
     .trim()
     .escape()
@@ -120,6 +125,7 @@ const createPost = [
           categoryIds.push(data.categoryIds);
         }
         const gadgetData = {
+          adminKey: data.adminKey,
           name: data.name,
           description: data.description,
           price: data.price,
