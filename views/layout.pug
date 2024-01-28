@@ -3,11 +3,23 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src="/script/index.js" defer) 
   Header
     a(href="/") 
       h1 Gadget Inventory
   body
-    block content
+    main
+      dialog(open = errors ? true : null)
+        if errors
+          each error in errors
+            h1 Error:
+            h1 #{error.msg}
+        form(action=url ? url :null method="post" )
+          label(for="adminKey") Admin key:
+          input(type="text" id="adminKey" name="adminKey" value= adminKey ? adminKey: null required)
+          button(id="submitAdminKey") submit
+          button(id="closeDialog") close
+      block content
   Footer 🤖 Gadgets Galore - Your Go-To Gadget Haven 🚀
     br
     |🔍 Explore the Gizmo Galaxy 🔍

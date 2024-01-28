@@ -16,6 +16,6 @@ router.post("/create", createPost);
 router.get("/:categoryId/edit", editGet);
 router.post("/:categoryId/edit", editPost);
 
-router.get("/:categoryId/delete", deleteCategory);
+router.post("/:categoryId/:adminKey/delete", deleteCategory);
 
 module.exports = router;

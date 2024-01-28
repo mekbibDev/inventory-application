@@ -1,12 +1,10 @@
 extends layout
 
 block content 
-
-  main 
-    h1 Categories 
-      each category in categories
-        h2 #{category.name}
+  h1 Categories 
+    each category in categories
+      h2 #{category.name}
         p #{category.description} 
         a(href=`/category/${category._id}/edit`) Edit Category
         br
-        a(href=`/category/${category._id}/delete`) Delete Category 
+        button(id="openModal" data-attribute=`/category/${category._id}/`) Delete Category

@@ -173,13 +173,28 @@ const editPost = [
 ];
 const deleteCategory = [
   param("categoryId").trim().escape().notEmpty(),
+  param("adminKey").trim().escape().notEmpty(),
   async function (req, res, next) {
     try {
       const result = validationResult(req);
+      const { adminKey, ...data } = matchedData(req);
+      if (adminKey) {
+        const { adminKey: categoryAdminKey } = await Category.findById(
+          data.categoryId,
+          "adminKey",
+        );
+        if (adminKey !== categoryAdminKey)
+          result.errors.unshift({ msg: "Admin key does not match" });
+      }
       if (!result.isEmpty()) {
-        throw new Error("A valid category id param must be sent");
+        const categories = await Category.find({});
+        res.render("categoryDetails", {
+          errors: result.errors,
+          url: `/category/${data.categoryId}/`,
+          adminKey,
+          categories,
+        });
       } else {
-        const data = matchedData(req);
         const deletedCategory = await Category.findByIdAndDelete(
           data.categoryId,
         );
