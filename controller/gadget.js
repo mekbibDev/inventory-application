@@ -141,7 +141,7 @@ const createPost = [
         });
         const savedGadget = await newGadget.save();
         await addGadgetToCategories(categoryIds, savedGadget._id);
-        if (savedGadget === newGadget) res.redirect("/");
+        if (savedGadget === newGadget) res.redirect("/?status=saved");
         else throw new Error("Gadget was not saved");
       }
     } catch (error) {
@@ -312,7 +312,7 @@ const editPost = [
           categoryIds,
           gadgetId,
         );
-        res.redirect("/");
+        res.redirect("/?status=edited");
       }
     } catch (error) {
       next(error);
@@ -353,7 +353,7 @@ const deleteGadget = [
         const deletedGadget = await Gadget.findByIdAndDelete(data.gadgetId);
         await removeGadgetFromCategories(deletedGadget, [], data.gadgetId);
 
-        res.redirect("/");
+        res.redirect("/?status=deleted");
       }
     } catch (error) {
       next(error);

@@ -1,4 +1,4 @@
-const openModalButtons = document.querySelectorAll("#openModal");
+const openModalButtons = document.querySelectorAll(".openModal");
 const closeDialogButton = document.querySelector(".closeDialog");
 const submitAdminKey = document.querySelector("#submitAdminKey");
 const dialog = document.querySelector("dialog");

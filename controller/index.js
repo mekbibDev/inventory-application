@@ -9,7 +9,27 @@ async function getAll(req, res, next) {
       { adminKey: 0 },
     );
     const categories = await Category.find({}, { adminKey: 0 });
-    res.render("index", { title: "Gadget Inventory", gadgets, categories });
+    let status = null;
+    const statusQuery = req.query.status;
+    if (statusQuery) {
+      switch (statusQuery) {
+        case "saved":
+          status = "Gadget was saved";
+          break;
+        case "edited":
+          status = "Gadget was edited";
+          break;
+        case "deleted":
+          status = "Gadget was deleted";
+          break;
+      }
+    }
+    res.render("index", {
+      title: "Gadget Inventory",
+      gadgets,
+      categories,
+      status,
+    });
   } catch (error) {
     next(error);
   }
