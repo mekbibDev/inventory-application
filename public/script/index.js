@@ -1,5 +1,5 @@
 const openModalButtons = document.querySelectorAll("#openModal");
-const closeDialogButton = document.querySelector("#closeDialog");
+const closeDialogButton = document.querySelector(".closeDialog");
 const submitAdminKey = document.querySelector("#submitAdminKey");
 const dialog = document.querySelector("dialog");
 
@@ -11,12 +11,13 @@ openModalButtons.forEach((openModalButton) => {
     dialog.show();
   });
 });
-
-submitAdminKey.addEventListener("click", () => {
-  const form = dialog.querySelector("form");
-  const inputValue = dialog.querySelector("input").value;
-  form.action += `${inputValue}/delete`;
-});
+if (submitAdminKey) {
+  submitAdminKey.addEventListener("click", () => {
+    const form = dialog.querySelector("form");
+    const inputValue = dialog.querySelector("input").value;
+    form.action += `${inputValue}/delete`;
+  });
+}
 
 closeDialogButton.addEventListener("click", (e) => {
   e.preventDefault();

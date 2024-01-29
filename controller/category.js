@@ -11,7 +11,25 @@ const { removeGadgetFromCategories } = require("./utils");
 async function detailsGet(req, res, next) {
   try {
     const categories = await Category.find({}, { adminKey: 0 });
-    res.render("categoryDetails", { categories });
+    let status = null;
+    const statusQuery = req.query.status;
+    if (statusQuery) {
+      switch (statusQuery) {
+        case "saved":
+          status = "Category was saved";
+          break;
+        case "notSaved":
+          status = "Category was not saved";
+          break;
+        case "edited":
+          status = "Category was edited";
+          break;
+        case "deleted":
+          status = "Category was deleted";
+          break;
+      }
+    }
+    res.render("categoryDetails", { categories, status });
   } catch (error) {
     next(error);
   }
@@ -78,8 +96,9 @@ const createPost = [
           adminKey: data.adminKey,
         });
         const savedCategory = await newCategory.save();
-        if (savedCategory === newCategory) res.redirect("/");
-        else throw new Error("Category was not saved");
+        if (savedCategory === newCategory)
+          res.redirect("/category/details" + "?status=saved");
+        else res.redirect("/category/details" + "?status=notSaved");
       }
     } catch (error) {
       next(error);
@@ -165,7 +184,7 @@ const editPost = [
       } else {
         const { categoryId, ...categoryUpdateData } = data;
         await Category.findByIdAndUpdate(categoryId, { ...categoryUpdateData });
-        res.redirect("/");
+        res.redirect("/category/details" + "?status=edited");
       }
     } catch (error) {
       next(error);
@@ -208,7 +227,7 @@ const deleteCategory = [
             deletedCategory._id.toString(),
           );
         }
-        res.redirect("/category/details");
+        res.redirect("/category/details" + "?status=deleted");
       }
     } catch (error) {
       next(error);
