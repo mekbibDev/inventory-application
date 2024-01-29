@@ -1,24 +1,25 @@
 extends layout
 
 block content
-  dialog(open = errors || status ? true : null)
+  dialog(open = errors ? true : null class="adminDialog")
+    if errors
+      h1 Error:
+      each error in errors
+        h1 #{error.msg}
+    form(action=url ? url :null method="post" )
+      label(for="adminKey") Admin key:
+      input(type="text" id="adminKey" name="adminKey" value= adminKey ? adminKey: null required)
+      button(id="submitAdminKey") submit
+      button(class="closeAdminDialog") close
+  dialog(open = status ? true : null, class="statusDialog")
     if status
       h1 #{status}
-      button(class="closeDialog") close
-    else 
-      if errors
-        h1 Error:
-        each error in errors
-          h1 #{error.msg}
-      form(action=url ? url :null method="post" )
-        label(for="adminKey") Admin key:
-        input(type="text" id="adminKey" name="adminKey" value= adminKey ? adminKey: null required)
-        button(id="submitAdminKey") submit
-        button(class="closeDialog") close 
+      button(class="closeStatusDialog") close
+
   h1 Categories 
     each category in categories
       h2 #{category.name}
         p #{category.description} 
         a(href=`/category/${category._id}/edit`) Edit Category
         br
-        button(id="openModal" data-attribute=`/category/${category._id}/`) Delete Category
+        button(class="openModal" data-attribute=`/category/${category._id}/`) Delete Category

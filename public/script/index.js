@@ -1,25 +1,32 @@
 const openModalButtons = document.querySelectorAll(".openModal");
-const closeDialogButton = document.querySelector(".closeDialog");
+const closeAdminDialogButton = document.querySelector(".closeAdminDialog");
+const closeStatusDialogButton = document.querySelector(".closeStatusDialog");
 const submitAdminKey = document.querySelector("#submitAdminKey");
-const dialog = document.querySelector("dialog");
+const adminDialog = document.querySelector(".adminDialog");
+const statusDialog = document.querySelector(".statusDialog");
 
 openModalButtons.forEach((openModalButton) => {
   openModalButton.addEventListener("click", (e) => {
     let url = e.target.getAttribute("data-attribute");
-    const form = dialog.querySelector("form");
+    const form = adminDialog.querySelector("form");
     form.action = url;
-    dialog.show();
+    adminDialog.show();
   });
 });
+
 if (submitAdminKey) {
   submitAdminKey.addEventListener("click", () => {
-    const form = dialog.querySelector("form");
-    const inputValue = dialog.querySelector("input").value;
+    const form = adminDialog.querySelector("form");
+    const inputValue = adminDialog.querySelector("input").value;
     form.action += `${inputValue}/delete`;
   });
 }
 
-closeDialogButton.addEventListener("click", (e) => {
+closeAdminDialogButton.addEventListener("click", (e) => {
   e.preventDefault();
-  dialog.close();
+  adminDialog.close();
+});
+
+closeStatusDialogButton.addEventListener("click", () => {
+  statusDialog.close();
 });
