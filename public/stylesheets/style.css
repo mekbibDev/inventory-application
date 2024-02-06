@@ -132,3 +132,9 @@ button {
   padding: 4px;
   border-radius: 4px;
 }
+
+@media (max-width:600px) {
+  img {
+    width: 300px;
+  }
+}
