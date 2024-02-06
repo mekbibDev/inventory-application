@@ -41,7 +41,7 @@ block content
         if gadget.photo 
             img(src=`data:${gadget.photoMimeType};base64,${Buffer.from(gadget.photo ).toString('base64')}` alt !=gadget.name width="400")
         else
-            img(src="/images/placeholder.png" width="400" )
+            img(src="/images/placeholder.png" width="400")
         div      
           h2 !{gadget.name}
           h3 Description: !{gadget.description}

@@ -1,6 +1,13 @@
-*{
+* {
   margin: 0;
   padding: 0;
+}
+:root {
+  --text: #17150c;
+  --background: #fdfdfb;
+  --primary: #ceb845;
+  --secondary: #e9d87e;
+  --accent: #f0d547;
 }
 body {
   display: flex;
@@ -8,17 +15,23 @@ body {
   align-items: center;
   gap: 20px;
   height: 100vh;
+  color: var(--text);
+  background: var(--background);
 }
 a {
-  color: #00b7ff;
+  color: var(--text);
+  text-decoration-color: var(--accent);
 }
 
 header {
   text-align: center;
+  padding: 5px;
+  width: 100vw;
+  background: var(--primary);
 }
 
 main {
-  flex:1;
+  flex: 1;
 }
 
 dialog {
@@ -34,7 +47,9 @@ dialog {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 20px;
 }
+
 .gadgetSections > div {
   display: flex;
   justify-content: center;
@@ -45,9 +60,11 @@ dialog {
 
 .gadgetSection {
   display: flex;
+  background: var(--secondary);
   align-items: center;
   max-width: 800px;
   gap: 20px;
+  border-radius: 10px;
 }
 
 ul {
@@ -60,6 +77,8 @@ ul {
 
 footer {
   text-align: center;
+  width: 100vw;
+  background: var(--primary);
 }
 
 fieldset {
@@ -77,4 +96,14 @@ form {
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+.categorySections > section {
+  padding: 4px;
+  background: var(--secondary);
+}
+button {
+  background-color: var(--primary);
+  padding: 4px;
+  border-radius: 4px;
 }
