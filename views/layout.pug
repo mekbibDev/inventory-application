@@ -1,6 +1,7 @@
 doctype html
 html
   head
+    meta(name="viewport" content="width=device-width, initial-scale=1")
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
     script(src="/script/index.js" defer) 
@@ -11,12 +12,14 @@ html
     main
       block content
   Footer 
-    | © 2024 TechHub Solutions. All rights reserved. | Gadget Inventory Management System v1.0
+    p © 2024 TechHub Solutions. All rights reserved. | Gadget Inventory Management System v1.0
     address
-      | Address: 123 Tech Lane, Cityville  
+      | Address: 123 Tech Lane, Cityville 
+      br 
       | Phone:
       a(href="tel:5551234567") 
         | (555) 123-4567
+      br
       | Email: 
       a(href="mailto:info@techhubsolutions.com") 
         | info@techhubsolutions.com

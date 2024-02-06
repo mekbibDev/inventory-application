@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Aleo:700|Aleo:400');
+
 * {
   margin: 0;
   padding: 0;
@@ -10,6 +12,8 @@
   --accent: #f0d547;
 }
 body {
+  font-family: 'Aleo','Courier New', Courier, monospace;
+  font-weight: 400;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -18,14 +22,26 @@ body {
   color: var(--text);
   background: var(--background);
 }
+html {font-size: 100%;} /* 16px */
+
+h1 {font-size: 2.369rem; /* 37.92px */}
+
+h2 {font-size: 1.777rem; /* 28.48px */}
+
+h3 {font-size: 1.333rem; /* 21.28px */}
+
+small {font-size: 0.750rem; /* 12px */}
+
 a {
   color: var(--text);
+  font-size: 1.333rem;
+  text-transform: capitalize;
   text-decoration-color: var(--accent);
 }
 
 header {
   text-align: center;
-  padding: 5px;
+  padding: 5px 0;
   width: 100vw;
   background: var(--primary);
 }
@@ -42,6 +58,7 @@ dialog {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  flex-wrap: wrap;
 }
 .gadgetSections {
   display: flex;
@@ -60,13 +77,17 @@ dialog {
 
 .gadgetSection {
   display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
   background: var(--secondary);
   align-items: center;
   max-width: 800px;
   gap: 20px;
   border-radius: 10px;
 }
-
+.gadgetSection > div {
+  max-width: 300px;
+}
 ul {
   list-style: none;
 }
@@ -76,6 +97,7 @@ ul {
 }
 
 footer {
+  padding: 5px 0;
   text-align: center;
   width: 100vw;
   background: var(--primary);
@@ -87,6 +109,7 @@ fieldset {
 
 form {
   display: flex;
+  font-size: 1.333rem;
   flex-direction: column;
   padding: 20px;
   gap: 4px;
@@ -102,8 +125,10 @@ form {
   padding: 4px;
   background: var(--secondary);
 }
+
 button {
   background-color: var(--primary);
+  font-size: 1.333rem;
   padding: 4px;
   border-radius: 4px;
 }
