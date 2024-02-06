@@ -15,41 +15,47 @@ block content
     if status
       h1 #{status}
       button(class="closeStatusDialog") close
-  h1 Categories
-  form( method="get" action="/filter" )
-    label(for="category-select") Select Category
-    select(name="category" id="category-select" required)
-      unless selectedCategory
-        option(value="") Select a category
-      each category in categories
-        option(value= category._id selected=selectedCategory && selectedCategory._id.toString()  === category._id.toString() ? true : false) !{category.name}  
-    button(type="submit") filter
-  a(href="category/create") create category
-  br
-  a(href="category/details") show category details
-  br
-  if selectedCategory 
-    a(href="/") Show All Gadgets
-  h1 Gadgets
-  a(href="gadget/create") create gadget
-  each gadget in gadgets
-    ul 
-      li !{gadget.name}
-        ul
-          if gadget.photo 
-            li
-              img(src=`data:${gadget.photoMimeType};base64,${Buffer.from(gadget.photo ).toString('base64')}` alt !=gadget.name)
-          li Description: !{gadget.description}
-          li Price: !{gadget.price}
-          li Stock: !{gadget.stock}
-          li category:
-            ul 
-              each category in gadget.categories
-                li !{category.name}
-      li 
-        a(href=`/gadget/${gadget._id.toString()}/edit`) Edit Gadget
-      li
-        button(class="openModal" data-attribute=`/gadget/${gadget._id}/`) Delete Gadget
-  if gadgets.length === 0
-    h1 No gadgets exist in this category
-    a(href="/gadget/create") Create new Gadget? 
+  section(class="categorySection")
+    div
+      form( method="get" action="/filter" )
+        label(for="category-select") Select Category
+        select(name="category" id="category-select" required)
+          unless selectedCategory
+            option(value="") Select a category
+          each category in categories
+            option(value= category._id selected=selectedCategory && selectedCategory._id.toString()  === category._id.toString() ? true : false) !{category.name}  
+        button(type="submit") filter
+    div
+      a(href="category/create") create category
+      br
+      a(href="category/details") show category details
+      br
+      if selectedCategory 
+        a(href="/") Show All Gadgets
+  section(class="gadgetSections")
+    div
+      h1 Gadgets
+      a(href="gadget/create") create gadget
+    each gadget in gadgets
+      section(class="gadgetSection")
+        if gadget.photo 
+            img(src=`data:${gadget.photoMimeType};base64,${Buffer.from(gadget.photo ).toString('base64')}` alt !=gadget.name width="400")
+        else
+            img(src="/images/placeholder.png" width="400" )
+        div      
+          h2 !{gadget.name}
+          h3 Description: !{gadget.description}
+          h3 Price: !{gadget.price}
+          h3 Stock: !{gadget.stock}
+          if gadget.categories
+            h3(class="categoryList") Categories:
+              ul
+                each category in gadget.categories
+                  li  !{category.name}
+          h3 
+            a(href=`/gadget/${gadget._id.toString()}/edit`) Edit Gadget
+          h3
+            button(class="openModal" data-attribute=`/gadget/${gadget._id}/`) Delete Gadget
+    if gadgets.length === 0
+      h1 No gadgets exist in this category
+      a(href="/gadget/create") Create new Gadget? 

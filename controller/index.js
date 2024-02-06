@@ -43,6 +43,7 @@ const filter = [
         const data = matchedData(req);
         const category = await Category.findById(data.category).populate(
           "gadgets",
+          { categories: 0 },
         );
         const categories = await Category.find({});
         res.render("index", {

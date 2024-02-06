@@ -16,9 +16,11 @@ block content
       h1 #{status}
       button(class="closeStatusDialog") close
 
-  h1 Categories 
+  h1 Categories
+  div(class="categorySections") 
     each category in categories
-      h2 #{category.name}
+      section
+        h2 #{category.name}
         p #{category.description} 
         a(href=`/category/${category._id}/edit`) Edit Category
         br
