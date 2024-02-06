@@ -114,7 +114,12 @@ form {
   padding: 20px;
   gap: 4px;
 }
-
+legend {
+  font-size: 1.333rem;
+}
+select, input, textarea {
+  font-size: 1.333rem;
+}
 .categorySections {
   display: flex;
   flex-direction: column;
