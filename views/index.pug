@@ -39,22 +39,22 @@ block content
     each gadget in gadgets
       section(class="gadgetSection")
         if gadget.photo 
-            img(src=`data:${gadget.photoMimeType};base64,${Buffer.from(gadget.photo ).toString('base64')}` alt !=gadget.name width="400")
+            img(src=`data:${gadget.photoMimeType};base64,${Buffer.from(gadget.photo ).toString('base64')}` alt="" width="400")
         else
-            img(src="/images/placeholder.png" width="400")
+            img(src="/images/placeholder.png" width="400" alt="placeholder")
         div      
-          h2 !{gadget.name}
-          h3 Description: !{gadget.description}
-          h3 Price: !{gadget.price}
-          h3 Stock: !{gadget.stock}
+          h1 !{gadget.name}
+          h2 Description: !{gadget.description}
+          h2 Price: !{gadget.price}
+          h2 Stock: !{gadget.stock}
           if gadget.categories
-            h3(class="categoryList") Categories:
+            h2(class="categoryList") Categories:
               ul
                 each category in gadget.categories
                   li  !{category.name}
-          h3 
+          h2 
             a(href=`/gadget/${gadget._id.toString()}/edit`) Edit Gadget
-          h3
+          h2
             button(class="openModal" data-attribute=`/gadget/${gadget._id}/`) Delete Gadget
     if gadgets.length === 0
       h1 No gadgets exist in this category

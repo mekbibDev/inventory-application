@@ -11,6 +11,9 @@
   --secondary: #e9d87e;
   --accent: #f0d547;
 }
+html,body{
+  overflow-x: hidden;
+}
 body {
   font-family: 'Aleo','Courier New', Courier, monospace;
   font-weight: 400;
@@ -26,9 +29,9 @@ html {font-size: 100%;} /* 16px */
 
 h1 {font-size: 2.369rem; /* 37.92px */}
 
-h2 {font-size: 1.777rem; /* 28.48px */}
+h2 {font-size: 1.5rem; }
 
-h3 {font-size: 1.333rem; /* 21.28px */}
+h3 {font-size: 1.2rem; /* 21.28px */}
 
 small {font-size: 0.750rem; /* 12px */}
 
@@ -86,7 +89,8 @@ dialog {
   border-radius: 10px;
 }
 .gadgetSection > div {
-  max-width: 300px;
+  overflow: auto;
+  max-width: 350px;
 }
 ul {
   list-style: none;
@@ -140,6 +144,13 @@ button {
 
 @media (max-width:600px) {
   img {
-    width: 300px;
+    max-width: 300px;
+  }
+  .gadgetSection > div {
+    max-width: 300px;
+    text-align: center;
+  }
+  .categoryList {
+    display: inline;
   }
 }

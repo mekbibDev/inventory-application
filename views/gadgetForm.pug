@@ -37,7 +37,7 @@ block content
           img(src=`data:${photoMimeType};base64,${Buffer.from(photo).toString('base64')}` alt!=name)
           h2 Uploaded Photo 
           input(type="radio" id="deleteNo" name="deletePhoto" value="false" checked)
-          label(for="deleteYes") no
+          label(for="deleteNo") no
           input(type="radio" id="deleteYes" name="deletePhoto" value="true")
           label(for="deleteYes") yes
           
