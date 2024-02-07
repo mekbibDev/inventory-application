@@ -19,10 +19,9 @@ app.set("view engine", "pug");
 
 if (process.env.NODE_ENV === "development") {
   app.use(compression());
-  const connectionString = process.env.DEVELOPMENT_MONGODB_URI;
-  connectToDatabase(connectionString);
 }
-
+const connectionString = process.env.MONGODB_URI;
+connectToDatabase(connectionString);
 app.use(helmet());
 app.use(logger("dev"));
 app.use(express.json());
