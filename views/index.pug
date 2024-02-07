@@ -52,8 +52,8 @@ block content
               ul
                 each category in gadget.categories
                   li  !{category.name}
-          h2 
-            a(href=`/gadget/${gadget._id.toString()}/edit`) Edit Gadget
+          
+          a(href=`/gadget/${gadget._id.toString()}/edit`) Edit Gadget
           h2
             button(class="openModal" data-attribute=`/gadget/${gadget._id}/`) Delete Gadget
     if gadgets.length === 0
