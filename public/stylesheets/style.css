@@ -149,6 +149,15 @@ button {
 }
 
 @media (max-width:600px) {
+  form {
+    max-width: 250px;
+  }
+  form img {
+    max-width: 200px;
+  }
+  dialog {
+    max-width: 200px;
+  }
   img {
     max-width: 300px;
   }
