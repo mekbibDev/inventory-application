@@ -1,0 +1,13 @@
+services:
+  development:
+    build: .
+    command: yarn devstart
+    volumes:
+      - ./:/usr/src/app
+      - node_modules:/usr/src/app/node_modules
+    ports:
+      - 127.0.0.1:3000:3000
+volumes:
+  node_modules:
+    
+
